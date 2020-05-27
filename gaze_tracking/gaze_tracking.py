@@ -128,6 +128,60 @@ class GazeTracking(object):
             blinking_ratio = (self.eye_left.blinking + self.eye_right.blinking) / 2
             return blinking_ratio > 3.8
 
+    def is_window_1(self):
+        """Returns ture if the user is looking to the window 1"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_left() and self.is_up()
+
+    def is_window_2(self):
+        """Returns ture if the user is looking to the window 2"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_center() and self.is_up()
+
+    def is_window_3(self):
+        """Returns ture if the user is looking to the window 3"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_right() and self.is_up()
+
+    def is_window_4(self):    
+        """Returns ture if the user is looking to the window 4"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_left() and self.is_middle()
+
+    def is_window_5(self):
+        """Returns ture if the user is looking to the window 5"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_center() and self.is_middle()
+
+    def is_window_6(self):
+        """Returns ture if the user is looking to the window 6"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_right() and self.is_middle()
+
+    def is_window_7(self):
+        """Returns ture if the user is looking to the window 7"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_left() and self.is_down()
+
+    def is_window_8(self):
+        """Returns ture if the user is looking to the window 8"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_center() and self.is_down()
+
+    def is_window_9(self):
+        """Returns ture if the user is looking to the window 9"""
+        """Window 1 is left up window"""
+        if self.pupils_located:
+            return self.is_center() and self.is_down()
+
     def annotated_frame(self):
         """Returns the main frame with pupils highlighted"""
         frame = self.frame.copy()
