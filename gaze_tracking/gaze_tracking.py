@@ -45,6 +45,8 @@ class GazeTracking(object):
         faces = self._face_detector(frame)
 
         try:
+            #swlee
+            #only one face is used
             landmarks = self._predictor(frame, faces[0])
             self.eye_left = Eye(frame, landmarks, 0, self.calibration)
             self.eye_right = Eye(frame, landmarks, 1, self.calibration)
@@ -100,27 +102,32 @@ class GazeTracking(object):
     def is_right(self):
         """Returns true if the user is looking to the right"""
         if self.pupils_located:
-            return self.horizontal_ratio() <= 0.35
+            return self.horizontal_ratio() <= 0.3
 
     def is_left(self):
         """Returns true if the user is looking to the left"""
         if self.pupils_located:
-            return self.horizontal_ratio() >= 0.65
+            return self.horizontal_ratio() >= 0.7
    
     def is_up(self):
         """Returns true if the user is looking to the up"""
         if self.pupils_located:
-            return self.vertical_ratio() <= 0.5
+            return self.vertical_ratio() <= 0.4
 
     def is_down(self):
         """Returns true if the user is lookint to the down"""
         if self.pupils_located:
-            return self.vertical_ratio() >=0.51
+            return self.vertical_ratio() >= 0.6
 
     def is_center(self):
         """Returns true if the user is looking to the center"""
         if self.pupils_located:
             return self.is_right() is not True and self.is_left() is not True
+
+    def is_middle(self):
+        """Returns true if the user is looking to the middle vertically"""
+        if self.pupils_located:
+            return self.is_up() is not True and self.is_down() is not True
 
     def is_blinking(self):
         """Returns true if the user closes his eyes"""
@@ -136,49 +143,49 @@ class GazeTracking(object):
 
     def is_window_2(self):
         """Returns ture if the user is looking to the window 2"""
-        """Window 1 is left up window"""
+        """Window 2 is center up window"""
         if self.pupils_located:
             return self.is_center() and self.is_up()
 
     def is_window_3(self):
         """Returns ture if the user is looking to the window 3"""
-        """Window 1 is left up window"""
+        """Window 3 is right up window"""
         if self.pupils_located:
             return self.is_right() and self.is_up()
 
     def is_window_4(self):    
         """Returns ture if the user is looking to the window 4"""
-        """Window 1 is left up window"""
+        """Window 4 is left middle window"""
         if self.pupils_located:
             return self.is_left() and self.is_middle()
 
     def is_window_5(self):
         """Returns ture if the user is looking to the window 5"""
-        """Window 1 is left up window"""
+        """Window 5 is center middle window"""
         if self.pupils_located:
             return self.is_center() and self.is_middle()
 
     def is_window_6(self):
         """Returns ture if the user is looking to the window 6"""
-        """Window 1 is left up window"""
+        """Window 6 is right middle window"""
         if self.pupils_located:
             return self.is_right() and self.is_middle()
 
     def is_window_7(self):
         """Returns ture if the user is looking to the window 7"""
-        """Window 1 is left up window"""
+        """Window 7 is left down window"""
         if self.pupils_located:
             return self.is_left() and self.is_down()
 
     def is_window_8(self):
         """Returns ture if the user is looking to the window 8"""
-        """Window 1 is left up window"""
+        """Window 8 is center down window"""
         if self.pupils_located:
             return self.is_center() and self.is_down()
 
     def is_window_9(self):
         """Returns ture if the user is looking to the window 9"""
-        """Window 1 is left up window"""
+        """Window 9 is right down window"""
         if self.pupils_located:
             return self.is_center() and self.is_down()
 
