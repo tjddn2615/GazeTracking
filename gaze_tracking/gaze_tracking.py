@@ -47,6 +47,7 @@ class GazeTracking(object):
         try:
             #swlee
             #only one face is used
+            print("Number of faces detected: " + str(faces.shape[0]))
             landmarks = self._predictor(frame, faces[0])
             self.eye_left = Eye(frame, landmarks, 0, self.calibration)
             self.eye_right = Eye(frame, landmarks, 1, self.calibration)
