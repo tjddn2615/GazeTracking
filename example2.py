@@ -4,7 +4,7 @@ Check the README.md for complete documentation.
 """
 
 import cv2
-from gaze_tracking import GazeTracking
+from gaze_tracking2 import GazeTracking
 
 gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
@@ -13,8 +13,26 @@ while True:
     # We get a new frame from the webcam
     _, frame = webcam.read()
 
+
+    face_detector = dlib.get_frontal_face_detector()
+    frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_detector(frame2)
+
+    for face in faces:
+
+        gaze.refresh(frame, face)
+
+        frame = gaze.annotated_frame()
+        text=""
+
+
+
+
+
     # We send this frame to GazeTracking to analyze it
     gaze.refresh(frame)
+
+
 
     frame = gaze.annotated_frame()
     text = ""
