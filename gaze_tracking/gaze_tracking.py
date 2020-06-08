@@ -26,6 +26,7 @@ class GazeTracking(object):
         cwd = os.path.abspath(os.path.dirname(__file__))
         model_path = os.path.abspath(os.path.join(cwd, "trained_models/shape_predictor_68_face_landmarks.dat"))
         self._predictor = dlib.shape_predictor(model_path)
+        print("gaze init")
 
     @property
     def pupils_located(self):
@@ -35,20 +36,21 @@ class GazeTracking(object):
             int(self.eye_left.pupil.y)
             int(self.eye_right.pupil.x)
             int(self.eye_right.pupil.y)
+            print("pupil true")
             return True
         except Exception:
             return False
 
-    def _analyze(self):
+    def _analyze(self, face):
         """Detects the face and initialize Eye objects"""
         frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
-        faces = self._face_detector(frame)
+        #faces = self._face_detector(frame)
 
         try:
             #swlee
             #only one face is used
             #print("Number of faces detected: " + str(faces[0].shape[0]))
-            landmarks = self._predictor(frame, faces[0])
+            landmarks = self._predictor(frame, face)
             self.eye_left = Eye(frame, landmarks, 0, self.calibration)
             self.eye_right = Eye(frame, landmarks, 1, self.calibration)
 
@@ -56,14 +58,14 @@ class GazeTracking(object):
             self.eye_left = None
             self.eye_right = None
 
-    def refresh(self, frame):
+    def refresh(self, frame, face):
         """Refreshes the frame and analyzes it.
 
         Arguments:
             frame (numpy.ndarray): The frame to analyze
         """
         self.frame = frame
-        self._analyze()
+        self._analyze(face)
         #for~~
 
     def pupil_left_coords(self):
@@ -101,6 +103,22 @@ class GazeTracking(object):
             pupil_right = self.eye_right.pupil.y / (self.eye_right.center[1] * 2 - 10)
             return (pupil_left + pupil_right) / 2
 
+    def annotated_frame(self):
+        """Returns the main frame with pupils highlighted"""
+        frame = self.frame.copy()
+
+        if self.pupils_located:
+            color = (0, 255, 0)
+            x_left, y_left = self.pupil_left_coords()
+            x_right, y_right = self.pupil_right_coords()
+            cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
+            cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
+            cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
+            cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
+
+        return frame
+
+
     def is_right(self):
         """Returns true if the user is looking to the right"""
         if self.pupils_located:
@@ -136,72 +154,3 @@ class GazeTracking(object):
         if self.pupils_located:
             blinking_ratio = (self.eye_left.blinking + self.eye_right.blinking) / 2
             return blinking_ratio > 3.8
-
-    def is_window_1(self):
-        """Returns ture if the user is looking to the window 1"""
-        """Window 1 is left up window"""
-        if self.pupils_located:
-            return self.is_left() and self.is_up()
-
-    def is_window_2(self):
-        """Returns ture if the user is looking to the window 2"""
-        """Window 2 is center up window"""
-        if self.pupils_located:
-            return self.is_center() and self.is_up()
-
-    def is_window_3(self):
-        """Returns ture if the user is looking to the window 3"""
-        """Window 3 is right up window"""
-        if self.pupils_located:
-            return self.is_right() and self.is_up()
-
-    def is_window_4(self):    
-        """Returns ture if the user is looking to the window 4"""
-        """Window 4 is left middle window"""
-        if self.pupils_located:
-            return self.is_left() and self.is_middle()
-
-    def is_window_5(self):
-        """Returns ture if the user is looking to the window 5"""
-        """Window 5 is center middle window"""
-        if self.pupils_located:
-            return self.is_center() and self.is_middle()
-
-    def is_window_6(self):
-        """Returns ture if the user is looking to the window 6"""
-        """Window 6 is right middle window"""
-        if self.pupils_located:
-            return self.is_right() and self.is_middle()
-
-    def is_window_7(self):
-        """Returns ture if the user is looking to the window 7"""
-        """Window 7 is left down window"""
-        if self.pupils_located:
-            return self.is_left() and self.is_down()
-
-    def is_window_8(self):
-        """Returns ture if the user is looking to the window 8"""
-        """Window 8 is center down window"""
-        if self.pupils_located:
-            return self.is_center() and self.is_down()
-
-    def is_window_9(self):
-        """Returns ture if the user is looking to the window 9"""
-        """Window 9 is right down window"""
-        if self.pupils_located:
-            return self.is_center() and self.is_down()
-
-    def annotated_frame(self):
-        """Returns the main frame with pupils highlighted"""
-        frame = self.frame.copy()
-
-        if self.pupils_located:
-            color = (0, 255, 0)
-            x_left, y_left = self.pupil_left_coords()
-            x_right, y_right = self.pupil_right_coords()
-            cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
-            cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
-            cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
-            cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
-
-        return frame
