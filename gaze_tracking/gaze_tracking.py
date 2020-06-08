@@ -47,7 +47,7 @@ class GazeTracking(object):
         try:
             #swlee
             #only one face is used
-            print("Number of faces detected: " + str(faces.shape[0]))
+            #print("Number of faces detected: " + str(faces[0].shape[0]))
             landmarks = self._predictor(frame, faces[0])
             self.eye_left = Eye(frame, landmarks, 0, self.calibration)
             self.eye_right = Eye(frame, landmarks, 1, self.calibration)
@@ -64,6 +64,7 @@ class GazeTracking(object):
         """
         self.frame = frame
         self._analyze()
+        #for~~
 
     def pupil_left_coords(self):
         """Returns the coordinates of the left pupil"""
