@@ -9,22 +9,22 @@ from gaze_tracking import GazeTracking
 
 gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
+face_detector = dlib.get_frontal_face_detector()
 
 while True:
     # We get a new frame from the webcam
     _, frame = webcam.read()
 
-    print("in")
-
-    face_detector = dlib.get_frontal_face_detector()
+    #print("in")
+    
     frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_detector(frame2)
 
     if faces:
         for face in faces:
 
-            if face:
-                print("face found")
+            #if face:
+                #print("face found")
 
             gaze.refresh(frame, face)
 
@@ -55,7 +55,9 @@ while True:
 
             cv2.imshow("Demo", frame)
     else:
-        gaze.refresh(frame,none)
+        gaze.refresh(frame,None)
+        frame = gaze.annotated_frame()
+        cv2.imshow("Demo", frame)
 
 
     if cv2.waitKey(1) == 27:

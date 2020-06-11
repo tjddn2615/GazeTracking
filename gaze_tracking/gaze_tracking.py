@@ -18,7 +18,7 @@ class GazeTracking(object):
         self.eye_left = None
         self.eye_right = None
         self.calibration = Calibration()
-
+        print("init")
         # _face_detector is used to detect faces
         self._face_detector = dlib.get_frontal_face_detector()
 
@@ -36,7 +36,7 @@ class GazeTracking(object):
             int(self.eye_left.pupil.y)
             int(self.eye_right.pupil.x)
             int(self.eye_right.pupil.y)
-            print("pupil true")
+            #print("pupil true")
             return True
         except Exception:
             return False
