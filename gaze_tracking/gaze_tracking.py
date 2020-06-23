@@ -47,7 +47,6 @@ class GazeTracking(object):
         if face is None:
             faces = self._face_detector(frame)
 
-
         try:
             #swlee
             #only one face is used
@@ -163,4 +162,4 @@ class GazeTracking(object):
         """Returns true if the user closes his eyes"""
         if self.pupils_located:
             blinking_ratio = (self.eye_left.blinking + self.eye_right.blinking) / 2
-            return blinking_ratio > 3.8
+            return blinking_ratio > 7
