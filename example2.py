@@ -62,7 +62,9 @@ while True:
 
         focusing=0
 
-        if(right_cnt>left_cnt and right_cnt>center_cnt):
+        if(text=="Blinking"):
+            text="Blinking"
+        elif(right_cnt>left_cnt and right_cnt>center_cnt):
             cv2.rectangle(frame, (0, 0),  (640, 1080), (0, 0, 255), 3)
             text = "Looking right"
             focusing=right_cnt
