@@ -24,6 +24,7 @@ while True:
     left_cnt=0
     center_cnt=0
     text=""
+    focusing=0
 
     if faces:
         for face in faces:
@@ -55,23 +56,32 @@ while True:
             left_pupil = gaze.pupil_left_coords()
             right_pupil = gaze.pupil_right_coords()
 
-            cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
-            cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
+            #cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
+            #cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
 
-        if(right_cnt>=left_cnt and right_cnt>=center_cnt):
+
+        focusing=0
+
+        if(right_cnt>left_cnt and right_cnt>center_cnt):
             cv2.rectangle(frame, (0, 0),  (640, 1080), (0, 0, 255), 3)
             text = "Looking right"
-        elif(left_cnt>=right_cnt and left_cnt>=center_cnt):
+            focusing=right_cnt
+        elif(left_cnt>right_cnt and left_cnt>center_cnt):
             cv2.rectangle(frame, (1280, 0),  (1920, 1080), (0, 0, 255), 3)
             text = "Looking left"
-        elif(center_cnt>=right_cnt and center_cnt>=left_cnt):
+            focusing=left_cnt
+        elif(center_cnt>right_cnt and center_cnt>left_cnt):
             cv2.rectangle(frame, (640, 0),  (1280, 1080), (0, 0, 255), 3)
             text = "Looking center"
+            focusing=center_cnt
+
+
     else:
         gaze.refresh(frame,None)
         frame = gaze.annotated_frame()
 
 
+    cv2.putText(frame, "Current people: " + str(focusing), (90, 200), cv2.FONT_HERSHEY_DUPLEX, 1.6, (0, 0, 0), 2)
     cv2.putText(frame, text, (90, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
     cv2.imshow("Demo", frame)
 
