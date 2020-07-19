@@ -37,18 +37,18 @@ while True:
 
             frame = gaze.annotated_frame()
 
-
-            if gaze.is_blinking():
-                text = "Blinking"
-            elif gaze.is_right():
-                text = "Looking right"
-                right_cnt+=1
-            elif gaze.is_left():
-                text = "Looking left"
-                left_cnt+=1
-            elif gaze.is_center():
-                text = "Looking center"
-                center_cnt+=1
+            #for each people
+            #if gaze.is_blinking():
+            #    text = "Blinking"
+            #elif gaze.is_right():
+            #    text = "Looking right"
+            #    right_cnt+=1
+            #elif gaze.is_left():
+            #    text = "Looking left"
+            #    left_cnt+=1
+            #elif gaze.is_center():
+            #    text = "Looking center"
+            #    center_cnt+=1
             #elif gaze.is_up():
             #    text = "Looking up"
             #elif gaze.is_down():
@@ -77,6 +77,8 @@ while True:
             cv2.rectangle(frame, (640, 0),  (1280, 1080), (0, 0, 255), 3)
             text = "Looking center"
             focusing=center_cnt
+        else:
+            text = "None"
 
 
     else:
