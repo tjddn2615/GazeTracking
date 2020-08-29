@@ -51,6 +51,8 @@ class GazeTracking(object):
             #swlee
             #only one face is used
             #print("Number of faces detected: " + str(faces[0].shape[0]))
+            
+            #for finding multi faces
             if face is None:
                 landmarks = self._predictor(frame, faces[0])
             else:    
