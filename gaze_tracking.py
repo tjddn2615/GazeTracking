@@ -38,28 +38,24 @@ while True:
             frame = gaze.annotated_frame()
 
             #for each people
-            #if gaze.is_blinking():
-            #    text = "Blinking"
-            #elif gaze.is_right():
-            #    text = "Looking right"
-            #    right_cnt+=1
-            #elif gaze.is_left():
-            #    text = "Looking left"
-            #    left_cnt+=1
-            #elif gaze.is_center():
-            #    text = "Looking center"
-            #    center_cnt+=1
-            #elif gaze.is_up():
-            #    text = "Looking up"
-            #elif gaze.is_down():
-            #    text = "Looking down"
+            if gaze.is_blinking():
+               text = "Blinking"
+            elif gaze.is_right():
+               text = "Looking right"
+               right_cnt+=1
+            elif gaze.is_left():
+               text = "Looking left"
+               left_cnt+=1
+            elif gaze.is_center():
+               text = "Looking center"
+               center_cnt+=1
+            elif gaze.is_up():
+               text = "Looking up"
+            elif gaze.is_down():
+               text = "Looking down"
 
             left_pupil = gaze.pupil_left_coords()
             right_pupil = gaze.pupil_right_coords()
-
-            #cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
-            #cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 1)
-
 
         focusing=0
 
