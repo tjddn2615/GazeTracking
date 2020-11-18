@@ -4,7 +4,7 @@ Check the README.md for complete documentation.
 """
 
 import cv2
-from gaze2 import GazeTracking
+from gaze_tracking import GazeTracking
 
 gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
